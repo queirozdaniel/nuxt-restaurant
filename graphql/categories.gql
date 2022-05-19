@@ -1,0 +1,21 @@
+query {
+  categories {
+    data {
+      id
+      attributes {
+        name
+        icon
+        image {
+          data {
+            id
+            attributes {
+              url
+            }
+          }
+        }
+        description
+        slug
+      }
+    }
+  }
+}
