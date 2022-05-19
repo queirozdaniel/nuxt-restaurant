@@ -1,16 +1,20 @@
 <template>
   <v-container>
     <v-divider></v-divider>
-    {{ $fetchState }}
-    <div v-for="category in categories" :key="category.id">
-      <v-btn 
-        :to="{
-          name: 'category', 
-          params : { category:category.attributes.slug },
-          query: { id: category.id}
-        }">
-        {{category.attributes.name}}
-      </v-btn>
+    <p v-if="$fetchState.pending">Carregando os dados</p>
+    <p v-else-if="$fetchState.error">Erro em busca</p>
+    <div v-else>
+      <div  v-for="category in categories" :key="category.id">
+        <v-btn 
+          class="my-1"
+          :to="{
+            name: 'category', 
+            params : { category:category.attributes.slug },
+            query: { id: category.id}
+          }">
+          {{category.attributes.name}}
+        </v-btn>
+      </div>
     </div>
   </v-container>
 </template>
