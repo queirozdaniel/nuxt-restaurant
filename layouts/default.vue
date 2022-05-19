@@ -5,7 +5,7 @@
     v-model="drawer"
     :clipped="$vuetify.breakpoint.lgAndUp"
     >
-      <div>Botoes</div>
+      <div>Botoes {{ counter }}</div>
     </v-navigation-drawer>
     <v-app-bar app :clipped-left="$vuetify.breakpoint.lgAndUp">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
@@ -40,6 +40,11 @@ export default {
     return {
       drawer: false,
       title: "Le Restaurant"
+    }
+  },
+  computed: {
+    counter() {
+      return this.$store.getters.readCounter
     }
   }
 }

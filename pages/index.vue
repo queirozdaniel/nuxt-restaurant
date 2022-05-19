@@ -7,7 +7,14 @@
         <div v-if="loading">Carregando dados...</div>
         <div v-else-if="error">{{error}}</div>
         <div v-else v-for="category in data.categories.data" :key="category.id">
-          nombre: {{category.attributes.name}}
+          <v-btn 
+            :to="{
+              name: 'category', 
+              params : { category:category.attributes.slug },
+              query: { id: category.id}
+            }">
+            {{category.attributes.name}}
+          </v-btn>
         </div>
       </template>
     </ApolloQuery>
@@ -15,8 +22,7 @@
 </template>
 
 <script>
-import gql from 'graphql-tag'
-import { categoriesGql } from '~~/graphql/queries'
+import { categoriesGql } from '@/graphql/queries'
 
 
 export default {

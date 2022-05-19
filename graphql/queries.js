@@ -7,11 +7,27 @@ export const categoriesGql = gql`
         id
         attributes {
           name
+          slug
           recipes {
             data {
               id
             }
           }
+        }
+      }
+    }
+  }
+`;
+
+export const categoryGql = gql`
+  query ($id: ID!) {
+    category(id: $id) {
+      data {
+        id
+        attributes {
+          name
+          icon
+          description
         }
       }
     }
