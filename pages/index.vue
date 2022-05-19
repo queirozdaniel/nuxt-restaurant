@@ -1,22 +1,36 @@
 <template>
   <v-container>
-    <v-btn class="primary">Primary</v-btn>
-    <v-btn class="secundary">secundary</v-btn>
-    <v-btn class="accent">accent</v-btn>
-
-
-    <div class="mt-2">
-      <v-btn class="warning">warning</v-btn>
-      <v-btn class="error">error</v-btn>
-      <v-btn class="success">success</v-btn>
-      <v-btn class="info">info</v-btn>
-    </div>
-
+    {{ categories }}
+    <v-divider></v-divider>
+    <ApolloQuery :query="query">
+      <template slot-scope="{result: { data, loading, error }}">
+        <div v-if="loading">Carregando dados...</div>
+        <div v-else-if="error">{{error}}</div>
+        <div v-else v-for="category in data.categories.data" :key="category.id">
+          nombre: {{category.attributes.name}}
+        </div>
+      </template>
+    </ApolloQuery>
   </v-container>
 </template>
 
 <script>
+import gql from 'graphql-tag'
+import { categoriesGql } from '~~/graphql/queries'
+
+
 export default {
-  name: 'IndexPage'
+  name: 'IndexPage',
+  data() {
+    return {
+      query: categoriesGql
+    }
+  },
+  apollo: {
+    categories: {
+      query:  categoriesGql,
+      update: data => data.categories
+    }
+  }
 }
 </script>
