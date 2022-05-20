@@ -1,7 +1,14 @@
 <template>
   <div>
     <div v-for="recipe in recipes" :key="recipe.id">
-      {{ recipe.attributes.name }}
+      <nuxt-link 
+        :to="{
+          name: 'category-recipe',
+          params: { category: $route.params.category, recipe: recipe.id}
+        }"
+      > 
+        {{ recipe.attributes.name }}
+      </nuxt-link>
     </div>
     <v-divider></v-divider>
     <nuxt-link to="/">Voltar</nuxt-link>
