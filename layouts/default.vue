@@ -1,17 +1,45 @@
 <template>
   <v-app>
     <v-navigation-drawer
-    app
-    v-model="drawer"
-    :clipped="$vuetify.breakpoint.lgAndUp"
+      app
+      v-model="drawer"
+      :clipped="$vuetify.breakpoint.lgAndUp"
+      color="grey lighten-4"
     >
-      <div>Botoes {{ counter }}</div>
+      <v-list color="primary--text">
+        <v-list-item to="/">
+          <v-list-item-icon>
+            <v-icon>mdi-home</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>
+              Início
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item 
+          v-for="link in links" 
+          :key="link.id" 
+          :to="{
+            name: 'category', 
+            params : { category: link.attributes.slug }}"
+        >
+          <v-list-item-icon>
+            <v-icon>{{ link.attributes.icon}}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>
+              {{ link.attributes.name}}
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
     </v-navigation-drawer>
-    <v-app-bar app :clipped-left="$vuetify.breakpoint.lgAndUp">
+    <v-app-bar app :clipped-left="$vuetify.breakpoint.lgAndUp" color="grey lighten-4" flat>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title v-text="title"></v-toolbar-title>
     </v-app-bar>
-   <v-main>
+   <v-main class="grey lighten-4">
      <nuxt />
    </v-main>
    <v-footer padless>
@@ -43,8 +71,8 @@ export default {
     }
   },
   computed: {
-    counter() {
-      return this.$store.getters.readCounter
+    links() {
+      return this.$store.getters.readCategories
     }
   }
 }
