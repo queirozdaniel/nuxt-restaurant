@@ -1,10 +1,10 @@
 <template>
   <v-container>
-    <v-divider></v-divider>
-    <p v-if="$fetchState.pending">Carregando os dados</p>
-    <p v-else-if="$fetchState.error">Erro em busca</p>
-    <div v-else>
-      <div  v-for="category in categories" :key="category.id">
+    <v-divider class="my-2"></v-divider>
+    <!-- <p v-if="$fetchState.pending">Carregando os dados</p>
+    <p v-else-if="$fetchState.error">Erro em busca</p> -->
+    <!-- <div v-else> -->
+      <div v-for="category in categories" :key="category.id">
         <v-btn 
           class="my-1"
           :to="{
@@ -15,7 +15,7 @@
           {{category.attributes.name}}
         </v-btn>
       </div>
-    </div>
+    <!-- </div> -->
   </v-container>
 </template>
 
@@ -25,18 +25,23 @@ export default {
   name: 'IndexPage',
   data() {
     return {
-      categories: []
+      // categories: []
     }
   },
-  async fetch() {
-    const client = this.$apollo.getClient()
-    const query = {
-      query:require('../graphql/categories.gql')
-    }
+  // async fetch() {
+  //   const client = this.$apollo.getClient()
+  //   const query = {
+  //     query:require('../graphql/categories.gql')
+  //   }
 
-    await client.query(query).then( ({data}) => {
-      this.categories = data.categories.data
-    })
+  //   await client.query(query).then( ({data}) => {
+  //     this.categories = data.categories.data
+  //   })
+  // },
+  computed: {
+    categories() {
+      return this.$store.getters.readCategories
+    }
   }
   // async asyncData(context) {
   //   const client = context.app.apolloProvider.defaultClient
