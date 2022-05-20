@@ -1,0 +1,20 @@
+query ($slug: String!) {
+  recipes(filters: { category: { slug: { eq: $slug } } }) {
+    data {
+      id
+      attributes {
+        name
+        likes
+        category {
+          data {
+            id
+            attributes {
+              name
+              slug
+            }
+          }
+        }
+      }
+    }
+  }
+}

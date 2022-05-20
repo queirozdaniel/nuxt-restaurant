@@ -1,46 +1,34 @@
 <template>
   <div>
-    {{ $route.params.category }}
-    {{ category }}
-    <div>
-      {{ counter }}
-      <v-btn @click="callMutation()">Mutation</v-btn>
-      <v-btn @click="callAction()">Action</v-btn>
+    <div v-for="recipe in recipes" :key="recipe.id">
+      {{ recipe.attributes.name }}
     </div>
+    <v-divider></v-divider>
+    <nuxt-link to="/">Voltar</nuxt-link>
   </div>
 </template>
 
 <script>
-import { categoryGql } from '@/graphql/queries'
 
 export default {
   data() {
     return {
-      query: categoryGql
     }
   },
-  apollo: {
-    category: {
-      query() {
-        return this.query
-      },
-      variables() {
-        return { id: this.$route.query.id}
-      }
+  async asyncData({app, route}) {
+    const slug = route.params.category
+    const client = app.apolloProvider.defaultClient
+    const query = {
+      query:require('../../graphql/recipes.gql'),
+      variables: { slug }
     }
-  },
-  computed: {
-    counter() {
-      return this.$store.getters.readCounter
-    }
-  },
-  methods: {
-    callMutation() {
-      this.$store.commit('increment')
-    },
-    callAction(){
-      this.$store.dispatch('increment')
-    }
+
+    let recipes = []
+    await client.query(query).then(({data}) => {
+      recipes = data.recipes.data
+    }).catch(e => console.log(error))
+
+    return { recipes }
   }
 
 }
