@@ -3,7 +3,7 @@
       name: 'category-recipe',
       params: { category: recipe.attributes.category.data.attributes.slug , recipe: recipe.id}
     }">
-    <v-img :src="recipe.attributes.img"></v-img>
+    <v-img :src="recipe.attributes.img" height="260"></v-img>
     <v-card-text>
       <v-row>
         <v-col cols="7">
