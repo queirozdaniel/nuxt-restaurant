@@ -1,6 +1,9 @@
 <template>
   <div>
     {{ recipe }}
+    <div class="my-3">
+      <app-ui-back-button />
+    </div>
   </div>
 </template>
 

@@ -10,18 +10,12 @@
         <app-ui-nav-card-recipe :recipe="recipe"></app-ui-nav-card-recipe>
       </v-col>
     </v-row>
-    <!-- <div v-for="recipe in recipes" :key="recipe.id">
-      <nuxt-link 
-        :to="{
-          name: 'category-recipe',
-          params: { category: $route.params.category, recipe: recipe.id}
-        }"
-      > 
-        {{ recipe.attributes.name }}
-      </nuxt-link>
-    </div> -->
-    <v-divider></v-divider>
-    <nuxt-link to="/">Voltar</nuxt-link>
+    <v-alert type="info" v-if="recipes.length === 0" class="mt-3">
+      <p>Não há receitas disponíveis</p>
+    </v-alert>
+    <div class="my-3">
+      <app-ui-back-button />
+    </div>
   </v-container>
 </template>
 
