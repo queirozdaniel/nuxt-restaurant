@@ -1,10 +1,14 @@
 <template>
   <v-container>
-    <v-divider class="my-2"></v-divider>
+    <v-row>
+      <v-col cols="3" v-for="category in categories" :key="category.id">
+        <app-ui-nav-card :category="category"></app-ui-nav-card>
+      </v-col>
+    </v-row>
     <!-- <p v-if="$fetchState.pending">Carregando os dados</p>
     <p v-else-if="$fetchState.error">Erro em busca</p> -->
     <!-- <div v-else> -->
-      <div v-for="category in categories" :key="category.id">
+      <!-- <div v-for="category in categories" :key="category.id">
         <v-btn 
           class="my-1"
           :to="{
@@ -14,7 +18,7 @@
           }">
           {{category.attributes.name}}
         </v-btn>
-      </div>
+      </div> -->
     <!-- </div> -->
   </v-container>
 </template>
