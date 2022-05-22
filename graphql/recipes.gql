@@ -4,6 +4,7 @@ query ($slug: String!) {
       id
       attributes {
         name
+        img
         likes
         category {
           data {
