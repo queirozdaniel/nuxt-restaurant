@@ -1,14 +1,14 @@
 export const state = () => ({
-  counter: 0,
   categories: [],
+  loadedRecipes: [],
 });
 
 export const getters = {
   readCategories(state) {
     return state.categories;
   },
-  readCounter(state) {
-    return state.counter;
+  readLoadedRecipes(state) {
+    return state.loadedRecipes;
   },
 };
 
@@ -16,14 +16,13 @@ export const mutations = {
   addCategories(state, payload) {
     state.categories = payload;
   },
-  increment(state) {
-    state.counter++;
+  addLoadedRecipes(state, payload) {
+    state.loadedRecipes = payload;
   },
 };
 
 export const actions = {
   async nuxtServerInit({ commit }) {
-    // return new Promise((resolve, reject) => {
     const client = this.app.apolloProvider.defaultClient;
     const query = {
       query: require("../graphql/categories.gql"),
@@ -33,11 +32,10 @@ export const actions = {
       .query(query)
       .then(({ data }) => {
         commit("addCategories", data.categories.data);
-        // resolve();
+        commit("addLoadedRecipes", data.recipes.data);
       })
       .catch((error) => {
         console.error(error);
-        // reject();
       });
     // });
   },

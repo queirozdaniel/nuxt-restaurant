@@ -38,7 +38,30 @@
     <v-app-bar app :clipped-left="$vuetify.breakpoint.lgAndUp" color="grey lighten-4" flat>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title v-text="title"></v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-menu v-model="search" :close-on-content-click="false" offset-y>
+        <template v-slot:activator="{on}">
+          <v-btn v-on="on" color="primary" icon>
+            <v-icon>mdi-magnify</v-icon>
+          </v-btn>
+        </template>
+        <v-card>
+          <v-card-title>
+            Buscar Receita
+          </v-card-title>
+          <v-card-text>
+            <v-text-field outlined label="Nome da Receita" dense v-model="findRecipe"></v-text-field>
+            <v-list v-if="findRecipe.length !== 0">
+              <v-list-item v-for="recipe in filteredRecipe" :key="recipe.id" 
+              @click="seeRecipe(recipe.attributes.category.data.attributes.slug, recipe.id)">
+                {{ recipe.attributes.name }}
+              </v-list-item>
+            </v-list>
+          </v-card-text>
+        </v-card>
+      </v-menu>
     </v-app-bar>
+
    <v-main class="grey lighten-4">
      <nuxt />
    </v-main>
@@ -62,17 +85,32 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'DefaultLayout',
   data() {
     return {
       drawer: false,
-      title: "Le Restaurant"
+      title: "Le Restaurant",
+      search: false,
+      findRecipe: ''
     }
   },
   computed: {
-    links() {
-      return this.$store.getters.readCategories
+    ...mapGetters({
+      links: "readCategories",
+      recipes:"readLoadedRecipes"
+    }),
+    filteredRecipe() {
+      return this.recipes.filter(recipe => recipe.attributes.name.toLowerCase().match(this.findRecipe.toLowerCase()))
+    }
+  },
+  methods: {
+    seeRecipe(category, recipe) {
+      this.findRecipe = ""
+      this.search = false
+      this.$router.push({name:'category-recipe', params:{category, recipe}})
     }
   }
 }

@@ -18,4 +18,20 @@ query {
       }
     }
   }
+  recipes {
+    data {
+      id
+      attributes {
+        name
+        category {
+          data {
+            id
+            attributes {
+              slug
+            }
+          }
+        }
+      }
+    }
+  }
 }
