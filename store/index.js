@@ -32,16 +32,26 @@ export const actions = {
       .query(query)
       .then(({ data }) => {
         commit("addCategories", data.categories.data);
-        commit("addLoadedRecipes", data.recipes.data);
+        // commit("addLoadedRecipes", data.recipes.data);
       })
       .catch((error) => {
         console.error(error);
       });
     // });
   },
-  increment(context) {
-    setTimeout(() => {
-      context.commit("increment");
-    }, 1000);
+  searchRecipe({ commit }, payload) {
+    const client = this.app.apolloProvider.defaultClient;
+    const query = {
+      query: require("../graphql/searchRecipe.gql"),
+      variables: { term: payload },
+    };
+    client
+      .query(query)
+      .then(({ data }) => {
+        commit("addLoadedRecipes", data.recipes.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   },
 };

@@ -1,0 +1,10 @@
+query ($term: String!) {
+  recipes(filters: { name: { contains: $term } }) {
+    data {
+      id
+      attributes {
+        name
+      }
+    }
+  }
+}

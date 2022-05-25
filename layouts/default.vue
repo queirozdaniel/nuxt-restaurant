@@ -50,9 +50,9 @@
             Buscar Receita
           </v-card-title>
           <v-card-text>
-            <v-text-field outlined label="Nome da Receita" dense v-model="findRecipe"></v-text-field>
+            <v-text-field outlined label="Nome da Receita" dense v-model="findRecipe" @input="searchRecipe"></v-text-field>
             <v-list v-if="findRecipe.length !== 0">
-              <v-list-item v-for="recipe in filteredRecipe" :key="recipe.id" 
+              <v-list-item v-for="recipe in recipes" :key="recipe.id" 
               @click="seeRecipe(recipe.attributes.category.data.attributes.slug, recipe.id)">
                 {{ recipe.attributes.name }}
               </v-list-item>
@@ -101,16 +101,16 @@ export default {
     ...mapGetters({
       links: "readCategories",
       recipes:"readLoadedRecipes"
-    }),
-    filteredRecipe() {
-      return this.recipes.filter(recipe => recipe.attributes.name.toLowerCase().match(this.findRecipe.toLowerCase()))
-    }
+    })
   },
   methods: {
     seeRecipe(category, recipe) {
       this.findRecipe = ""
       this.search = false
       this.$router.push({name:'category-recipe', params:{category, recipe}})
+    },
+    searchRecipe(){
+      this.$store.dispatch("searchRecipe", this.findRecipe)
     }
   }
 }
