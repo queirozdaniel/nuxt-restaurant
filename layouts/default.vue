@@ -60,11 +60,19 @@
           </v-card-text>
         </v-card>
       </v-menu>
+
+      <v-btn text color="primary" @click="dialog = true; type = 'app-form-login'">Acessar</v-btn>
+      <v-btn text color="primary" @click="dialog = true; type = 'app-form-register'">Registrar-se</v-btn>
     </v-app-bar>
 
    <v-main class="grey lighten-4">
      <nuxt />
    </v-main>
+
+    <v-dialog v-model="dialog" max-width="600">
+      <component :is="type" @close="dialog = $event"/>
+    </v-dialog>
+
    <v-footer padless>
       <v-row justify="center" no-gutters>
        <v-btn color="primary" small icon>
@@ -94,7 +102,9 @@ export default {
       drawer: false,
       title: "Le Restaurant",
       search: false,
-      findRecipe: ''
+      findRecipe: '',
+      dialog: false,
+      type: 'app-form-register'
     }
   },
   computed: {
