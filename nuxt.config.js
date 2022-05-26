@@ -36,8 +36,10 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ["@nuxtjs/apollo"],
-
+  modules: ["@nuxtjs/apollo", "@nuxtjs/axios", "@nuxtjs/auth-next"],
+  auth: {
+    // Options
+  },
   apollo: {
     clientConfigs: {
       default: {

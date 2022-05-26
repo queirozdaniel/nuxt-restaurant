@@ -63,7 +63,6 @@
 
       <v-btn text color="primary" @click="dialog = true; type = 'app-form-login'">Acessar</v-btn>
       <v-btn text color="primary" @click="dialog = true; type = 'app-form-register'">Registrar-se</v-btn>
-      <v-btn @click="test()">Toast</v-btn>
     </v-app-bar>
 
    <v-main class="grey lighten-4">
@@ -131,9 +130,6 @@ export default {
     },
     searchRecipe(){
       this.$store.dispatch("searchRecipe", this.findRecipe)
-    },
-    test() {
-      this.$store.dispatch('snackbars/setSnack', { text: 'Ola', color: 'error'})
     }
   }
 }
