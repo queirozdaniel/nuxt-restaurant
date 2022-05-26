@@ -68,7 +68,8 @@
 
    <v-main class="grey lighten-4">
      <nuxt />
-     <v-snackbar v-for="(snack, i) in snacks" :key="i + Math.random()" v-model="snack.showing" :color="snack.color" :timeout="snack.timeout" top right>
+     <v-snackbar v-for="(snack, i) in snacks.filter( s => s.showing) " :key="i + Math.random()" 
+     v-model="snack.showing" :color="snack.color" :timeout="snack.timeout" right :style="`bottom: ${i * 60 + 8}px`">
       {{ snack.text }}
       <v-btn slot="action" small icon @click="snack.showing = false">
         <v-icon>mdi-close</v-icon>
