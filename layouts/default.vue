@@ -63,10 +63,17 @@
 
       <v-btn text color="primary" @click="dialog = true; type = 'app-form-login'">Acessar</v-btn>
       <v-btn text color="primary" @click="dialog = true; type = 'app-form-register'">Registrar-se</v-btn>
+      <v-btn @click="test()">Toast</v-btn>
     </v-app-bar>
 
    <v-main class="grey lighten-4">
      <nuxt />
+     <v-snackbar v-for="(snack, i) in snacks" :key="i + Math.random()" v-model="snack.showing" :color="snack.color" :timeout="snack.timeout" top right>
+      {{ snack.text }}
+      <v-btn slot="action" small icon @click="snack.showing = false">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+     </v-snackbar>
    </v-main>
 
     <v-dialog v-model="dialog" max-width="600">
@@ -104,13 +111,15 @@ export default {
       search: false,
       findRecipe: '',
       dialog: false,
-      type: 'app-form-register'
+      type: 'app-form-register',
+      snackbar: false
     }
   },
   computed: {
     ...mapGetters({
       links: "readCategories",
-      recipes:"readLoadedRecipes"
+      recipes:"readLoadedRecipes",
+      snacks: "snackbars/readSnackbars"
     })
   },
   methods: {
@@ -121,6 +130,9 @@ export default {
     },
     searchRecipe(){
       this.$store.dispatch("searchRecipe", this.findRecipe)
+    },
+    test() {
+      this.$store.dispatch('snackbars/setSnack', { text: 'Ola', color: 'error'})
     }
   }
 }
