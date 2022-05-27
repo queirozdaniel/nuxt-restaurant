@@ -60,9 +60,14 @@
           </v-card-text>
         </v-card>
       </v-menu>
-
-      <v-btn text color="primary" @click="dialog = true; type = 'app-form-login'">Acessar</v-btn>
-      <v-btn text color="primary" @click="dialog = true; type = 'app-form-register'">Registrar-se</v-btn>
+      <div v-if="$auth.loggedIn">
+        {{ $auth.user.username }}
+        <v-btn text color="primary" @click="logout()">Sair</v-btn>
+      </div>
+      <div v-else>
+        <v-btn text color="primary" @click="dialog = true; type = 'app-form-login'">Acessar</v-btn>
+        <v-btn text color="primary" @click="dialog = true; type = 'app-form-register'">Registrar-se</v-btn>
+      </div>
     </v-app-bar>
 
    <v-main class="grey lighten-4">
@@ -130,6 +135,9 @@ export default {
     },
     searchRecipe(){
       this.$store.dispatch("searchRecipe", this.findRecipe)
+    },
+    logout() {
+      this.$auth.logout()
     }
   }
 }
