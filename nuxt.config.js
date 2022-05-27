@@ -38,7 +38,28 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: ["@nuxtjs/apollo", "@nuxtjs/axios", "@nuxtjs/auth-next"],
   auth: {
-    // Options
+    strategies: {
+      local: {
+        token: {
+          property: "jwt",
+          type: "Bearer",
+        },
+        user: {
+          property: false,
+        },
+        endpoints: {
+          login: { url: "api/auth/local", method: "post" },
+          logout: false,
+          user: { url: "api/users/me", method: "get" },
+        },
+      },
+    },
+    redirect: {
+      login: "/",
+      logout: "/",
+      callback: "/",
+      home: "/user",
+    },
   },
   apollo: {
     clientConfigs: {

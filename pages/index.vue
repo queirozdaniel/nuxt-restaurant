@@ -12,6 +12,7 @@
 
 export default {
   name: 'IndexPage',
+  middleware: 'initData',
   data() {
     return {
     }
