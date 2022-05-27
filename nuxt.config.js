@@ -61,6 +61,9 @@ export default {
       home: "/user",
     },
   },
+  axios: {
+    baseUrl: "http://localhost:1337/",
+  },
   apollo: {
     clientConfigs: {
       default: {
