@@ -77,13 +77,13 @@
           <v-card>
             <v-list>
               <v-list-item>
-                <v-list-content class="mx-2">
+                <v-list-item-content>
                   <v-list-item-title>{{ $auth.user.username }}</v-list-item-title>
                   <v-list-item-subtitle>{{ $auth.user.email }}</v-list-item-subtitle>
-                </v-list-content>
-                <v-list-action>
+                </v-list-item-content>
+                <v-list-item-action>
                   <v-btn to="/user" small>Editar</v-btn>
-                </v-list-action>
+                </v-list-item-action>
               </v-list-item>
             </v-list>
             <v-card-actions>
@@ -168,6 +168,7 @@ export default {
     },
     logout() {
       this.$auth.logout()
+      this.loginmenu =  false
     }
   }
 }

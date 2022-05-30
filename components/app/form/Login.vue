@@ -39,6 +39,8 @@ export default {
       await this.$auth.loginWith("local", { data: this.userInfo })
         .then(() => {
           this.$emit('close',false)
+          this.userInfo.identifier = ""
+          this.userInfo.password = ""
           this.$store.dispatch("snackbars/setSnack", { text: `Bem vindo, ${this.$auth.user.username}!` , color: 'success'})
         }).catch(error => {
           this.$store.dispatch("snackbars/setSnack", { text: 'Verifique se o nome de usuário e/ou senha estão corretos', color: 'error'})
