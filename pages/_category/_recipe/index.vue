@@ -21,7 +21,7 @@
             </v-chip>
             <v-chip color="primary" outlined>
               <v-icon left>mdi-account-edit</v-icon>
-              Autor: Daniel
+              Autor: {{ recipe.attributes.author.data.attributes.username }}
             </v-chip>
             <v-divider class="my-3"></v-divider>
             <h4 class="body-1">Descrição</h4>
