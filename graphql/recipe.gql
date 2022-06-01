@@ -20,6 +20,13 @@ query ($id: ID!) {
             }
           }
         }
+        author {
+          data {
+            attributes {
+              username
+            }
+          }
+        }
       }
     }
   }

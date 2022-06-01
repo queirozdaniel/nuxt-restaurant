@@ -8,6 +8,7 @@
       <v-row>
         <v-col cols="7">
           <h3>{{ recipe.attributes.name }}</h3>
+          {{ recipe.attributes.author.data.attributes.username }}
         </v-col>
         <v-col cols="5" class="d-flex justify-end">
           <div>
