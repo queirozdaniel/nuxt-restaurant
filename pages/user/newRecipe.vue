@@ -1,13 +1,9 @@
 <template>
   <v-container>
-    <h2>Bem vindo, {{ $auth.user.username }}</h2>
+    <h2>Adicionar Nova Receita</h2>
     <v-divider class="my-5"></v-divider>
-    <h3>Suas Receitas</h3>
-    <v-btn color="primary" small class="my-3" to="user/newRecipe">Associar Receita</v-btn>
-    <div v-if="recipes">
-      <app-ui-list-recipes :recipes="recipes"></app-ui-list-recipes>
-    </div>
-    <div v-else></div>
+    <h3>Minhas Receitas</h3>
+    <app-form-recipe></app-form-recipe>
   </v-container>
 </template>
 
