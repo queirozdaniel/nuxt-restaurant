@@ -12,7 +12,8 @@
                 <v-text-field dense label="Nome da Receita" outlined v-model="recipe.name"></v-text-field>
               </v-col>
               <v-col cols="4">
-                <v-text-field dense label="Tempo de Preparo" type="number" outlined v-model="recipe.duration"></v-text-field>
+                <v-text-field dense label="Tempo de Preparo em minutos" type="number" outlined v-model="recipe.duration"></v-text-field>
+                <v-icon>mdi-clock</v-icon> {{formatedTime}}
               </v-col>
               <v-col cols="4">
                 <v-text-field dense label="Serve Quantas Pessoas ?" outlined v-model="recipe.serving"></v-text-field>
@@ -74,6 +75,12 @@ export default {
   computed: {
     categories(){
       return this.$store.getters.readCategories
+    },
+    formatedTime() {
+      let hours = Math.floor(this.recipe.attributes.duration / 60)
+      let minutes = this.recipe.attributes.duration % 60
+
+      return ("0"+hours).slice(-2) + ":" + ("0"+minutes).slice(-2)
     }
   },
   methods: {
