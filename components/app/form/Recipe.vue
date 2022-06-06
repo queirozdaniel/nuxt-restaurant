@@ -48,6 +48,8 @@
                 <v-divider class="my-4"></v-divider>
               </v-col>
             </v-row>
+
+            <v-btn type="submit" class="secundary my-5" small>Gravar receita</v-btn>
           </v-container>
         </v-form>
       </v-card-text>
@@ -89,6 +91,28 @@ export default {
         this.recipe[item] = []
       }
       this.recipe[item].push("")
+    },
+    async onsubmit(){
+      const id = this.$auth.user.id
+      this.recipe.author = id
+      this.recipe.dutarion = Number(this.recipe.duration)
+      this.recipe.serving = Number(this.recipe.serving)
+      const token = this.$auth.strategy.token.get()
+
+      await this.$apollo.mutate({
+        context: {
+          headers: {
+            Authorization: token
+          }
+        },
+        mutate:require('../../../graphql/createRecipe.gql')
+      })
+      .then( data => {
+        console.log()
+      })
+      .catch(error => {
+        console.error(error);
+      })
     }
   }
 }
