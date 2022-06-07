@@ -5,7 +5,7 @@
         Minha Receita
       </v-card-title>
       <v-card-text>
-        <v-form>
+        <v-form @submit.prevent="onsubmit">
           <v-container>
             <v-row>
               <v-col cols="12">
@@ -16,7 +16,7 @@
                 <v-icon>mdi-clock</v-icon> {{formatedTime}}
               </v-col>
               <v-col cols="4">
-                <v-text-field dense label="Serve Quantas Pessoas ?" outlined v-model="recipe.serving"></v-text-field>
+                <v-text-field dense label="Serve Quantas Pessoas ?" outlined v-model="recipe.servings"></v-text-field>
               </v-col>
               <v-col cols="4">
                 <v-select dense outlined v-model="recipe.category" 
@@ -65,7 +65,7 @@ export default {
       default: () => ({
         name: "",
         duration: 0,
-        serving: 21,
+        servings: 21,
         img: "",
         description: "",
         ingredients:[""],
@@ -79,8 +79,8 @@ export default {
       return this.$store.getters.readCategories
     },
     formatedTime() {
-      let hours = Math.floor(this.recipe.attributes.duration / 60)
-      let minutes = this.recipe.attributes.duration % 60
+      let hours = Math.floor(this.recipe.duration / 60)
+      let minutes = this.recipe.duration % 60
 
       return ("0"+hours).slice(-2) + ":" + ("0"+minutes).slice(-2)
     }
@@ -92,23 +92,25 @@ export default {
       }
       this.recipe[item].push("")
     },
-    async onsubmit(){
+    async onsubmit() {
       const id = this.$auth.user.id
       this.recipe.author = id
-      this.recipe.dutarion = Number(this.recipe.duration)
-      this.recipe.serving = Number(this.recipe.serving)
+      this.recipe.duration = Number(this.recipe.duration)
+      this.recipe.servings = Number(this.recipe.servings)
+      this.recipe.category = Number(this.recipe.category)
       const token = this.$auth.strategy.token.get()
 
       await this.$apollo.mutate({
         context: {
-          headers: {
+          Headers: {
             Authorization: token
           }
         },
-        mutate:require('../../../graphql/createRecipe.gql')
+        mutation:require('../../../graphql/createRecipe.gql'),
+        variables:this.recipe
       })
       .then( data => {
-        console.log()
+        console.log(data)
       })
       .catch(error => {
         console.error(error);
