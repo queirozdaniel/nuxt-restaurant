@@ -102,7 +102,7 @@ export default {
 
       await this.$apollo.mutate({
         context: {
-          Headers: {
+          headers: {
             Authorization: token
           }
         },
