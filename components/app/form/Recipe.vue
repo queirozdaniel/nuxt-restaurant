@@ -107,10 +107,22 @@ export default {
           }
         },
         mutation:require('../../../graphql/createRecipe.gql'),
-        variables:this.recipe
+        variables:this.recipe,
+        update:(cache, myrecipe) => {
+          console.log({cache, myrecipe});
+          const data = cache.readQuery({
+            query: require("../../../graphql/userRecipes.gql"),
+            variables: { id },
+          });
+          data.recipes.data.push(myrecipe.data['createRecipe'].data);
+          cache.writeQuery({
+            query: require("../../../graphql/userRecipes.gql"),
+            variables: { id },
+            data,
+          });
+        }
       })
       .then( data => {
-        //console.log(data)
         this.$router.push({ name: 'user' })
         this.$store.dispatch("snackbars/setSnack", { text: "Receita Salva!", color: "info" })
       })

@@ -26,6 +26,14 @@ mutation (
       id
       attributes {
         name
+        category {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
       }
     }
   }
