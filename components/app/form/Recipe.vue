@@ -110,10 +110,13 @@ export default {
         variables:this.recipe
       })
       .then( data => {
-        console.log(data)
+        //console.log(data)
+        this.$router.push({ name: 'user' })
+        this.$store.dispatch("snackbars/setSnack", { text: "Receita Salva!", color: "info" })
       })
       .catch(error => {
         console.error(error);
+        this.$store.dispatch("snackbars/setSnack", { text: "Houve algum erro!", color: "error" })
       })
     }
   }
