@@ -20,7 +20,8 @@ export default {
 
     const query = {
       query:require('../../graphql/userRecipes.gql'),
-      variables:{id}
+      variables:{id},
+      fetchPolicy:'no-cache'
     }
 
     let recipes = null
