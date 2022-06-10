@@ -49,7 +49,7 @@
               </v-col>
             </v-row>
 
-            <v-btn type="submit" class="secundary my-5" small>Gravar receita</v-btn>
+            <v-btn type="submit" class="secundary my-5" small>{{ hasId ? "Atualizar Receita" : "Criar Receita"}}</v-btn>
           </v-container>
         </v-form>
       </v-card-text>
@@ -78,6 +78,9 @@ export default {
     categories(){
       return this.$store.getters.readCategories
     },
+    hasId(){
+      return this.recipe.hasOwnProperty("id")
+    },
     formatedTime() {
       let hours = Math.floor(this.recipe.duration / 60)
       let minutes = this.recipe.duration % 60
@@ -97,29 +100,34 @@ export default {
       this.recipe.author = id
       this.recipe.duration = Number(this.recipe.duration)
       this.recipe.servings = Number(this.recipe.servings)
-      this.recipe.category = Number(this.recipe.category)
+      if(typeof this.recipe.category == "object") {
+        this.recipe.category =  this.recipe.category.id
+      } else {
+        this.recipe.category = Number(this.recipe.category)
+      }
       const token = this.$auth.strategy.token.get()
-
+      const mutation = this.hasId ? "updateRecipe" : "createRecipe"
       await this.$apollo.mutate({
         context: {
           headers: {
             Authorization: token
           }
         },
-        mutation:require('../../../graphql/createRecipe.gql'),
+        mutation:require(`../../../graphql/${mutation}.gql`),
         variables:this.recipe,
         update:(cache, myrecipe) => {
-          console.log({cache, myrecipe});
-          const data = cache.readQuery({
-            query: require("../../../graphql/userRecipes.gql"),
-            variables: { id },
-          });
-          data.recipes.data.push(myrecipe.data['createRecipe'].data);
-          cache.writeQuery({
-            query: require("../../../graphql/userRecipes.gql"),
-            variables: { id },
-            data,
-          });
+          if (mutation === 'createRecipe') {
+            const data = cache.readQuery({
+              query: require("../../../graphql/userRecipes.gql"),
+              variables: { id },
+            });
+            data.recipes.data.push(myrecipe.data[mutation].data);
+            cache.writeQuery({
+              query: require("../../../graphql/userRecipes.gql"),
+              variables: { id },
+              data,
+            });
+          }
         }
       })
       .then( data => {

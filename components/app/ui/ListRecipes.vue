@@ -11,7 +11,7 @@
               </v-list-item-content>
               <v-list-item-action>
                 <v-row align="center" justify="center">
-                  <v-btn icon><v-icon>mdi-pencil</v-icon></v-btn>
+                  <v-btn icon :to="{name: 'user-edit-id', params: { id: recipe.id }}"><v-icon>mdi-pencil</v-icon></v-btn>
                   <v-btn icon><v-icon>mdi-delete</v-icon></v-btn>
                 </v-row>
               </v-list-item-action>
