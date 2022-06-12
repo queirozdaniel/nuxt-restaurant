@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    {{ userFavorites }}
     <h1 class="secundary--text"> {{ recipe.attributes.name }}</h1>
     <h5 class="secundary--text"> {{ recipe.attributes.category.data.attributes.name }}</h5>
 
@@ -76,6 +77,9 @@ export default {
       let minutes = this.recipe.attributes.duration % 60
 
       return ("0"+hours).slice(-2) + ":" + ("0"+minutes).slice(-2)
+    },
+    userFavorites(){
+      return this.$store.getters['user/favorites']
     }
   },
   async asyncData({app, route}) {
@@ -93,6 +97,11 @@ export default {
     }).catch(e => console.log(e))
 
     return { recipe }
+  },
+  async mounted(){
+    if (this.$auth.loggedIn && this.$store.getters['user/favorites'] == null) {
+      await this.$store.dispatch("user/getFavorites")
+    }
   }
 }
 </script>

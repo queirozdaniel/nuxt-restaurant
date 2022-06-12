@@ -22,7 +22,7 @@
 <script>
 export default {
   middleware: "auth",
-  async asyncData({ app }) {
+  async asyncData({ app, store }) {
     let client = app.apolloProvider.defaultClient
     let id = app.$auth.user.id
     let query = {
@@ -38,6 +38,7 @@ export default {
     let favorites = null
     await client.query(query).then(({data}) => {
       favorites = data.usersPermissionsUser.data.attributes.favorites.data
+      store.commit("user/setFavorites", favorites)
     }).catch(e => console.log(e))
     
     return {
