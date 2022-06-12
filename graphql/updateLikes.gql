@@ -12,6 +12,14 @@ mutation ($id: ID!, $likes: Long!, $idUser: ID!, $favorites: [ID!]) {
       id
       attributes {
         username
+        favorites {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
       }
     }
   }

@@ -1,13 +1,30 @@
 query ($id: ID!) {
   usersPermissionsUser(id: $id) {
     data {
-      id
       attributes {
         favorites {
           data {
             id
             attributes {
               name
+              likes
+              img
+              category {
+                data {
+                  id
+                  attributes {
+                    name
+                    slug
+                  }
+                }
+              }
+              author {
+                data {
+                  attributes {
+                    username
+                  }
+                }
+              }
             }
           }
         }

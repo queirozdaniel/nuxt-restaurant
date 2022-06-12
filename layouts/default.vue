@@ -33,6 +33,16 @@
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item to="/user/favorites" v-if="$auth.loggedIn">
+          <v-list-item-icon>
+            <v-icon>mdi-heart</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>
+              Receitas Favoritas
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <v-app-bar app :clipped-left="$vuetify.breakpoint.lgAndUp" color="grey lighten-4" flat>
