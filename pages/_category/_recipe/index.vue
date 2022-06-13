@@ -140,6 +140,31 @@ export default {
     },
     unlikeRecipe() {
       this.$store.commit('user/removeRecipe', this.recipe.id)
+
+      const variables = {
+        id: this.recipe.id,
+        idUser: this.$auth.user.id,
+        favorites: this.userFavorites.map(fav => Number(fav.id))
+      }
+
+      this.$apollo.query({
+        query: require('../../../graphql/getLikes.gql'),
+        variables: { id: this.recipe.id }
+      }).then(({ data }) => {
+        let likes = data.recipe.data.attributes.likes - 1
+        this.recipe.attributes.likes = likes
+        variables.likes = likes
+
+        this.$apollo.mutate({
+          context: {
+            headers: {
+              Authorization: this.$auth.strategy.token.get()
+            }
+          },
+          mutation: require('../../../graphql/updateLikes.gql'),
+          variables
+        })
+      })
     }
   },
   async asyncData({app, route}) {

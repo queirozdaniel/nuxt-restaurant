@@ -179,6 +179,7 @@ export default {
     logout() {
       this.$auth.logout()
       this.loginmenu =  false
+      this.$store.commit("user/resetFavorites")
     }
   }
 }

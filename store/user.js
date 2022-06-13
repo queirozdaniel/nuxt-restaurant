@@ -20,6 +20,9 @@ export const mutations = {
     const index = state.favorites.indexOf(myRecipe);
     state.favorites.splice(index, 1);
   },
+  resetFavorites(state) {
+    state.favorites = null;
+  },
 };
 
 export const actions = {
