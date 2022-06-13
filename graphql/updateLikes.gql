@@ -7,7 +7,7 @@ mutation ($id: ID!, $likes: Long!, $idUser: ID!, $favorites: [ID!]) {
       }
     }
   }
-  updateUsersPermissionsUser(id: $idUser, data: { favorites: [$favorites] }) {
+  updateUsersPermissionsUser(id: $idUser, data: { favorites: $favorites }) {
     data {
       id
       attributes {

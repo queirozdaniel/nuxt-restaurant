@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    {{ userFavorites }}
     <h1 class="secundary--text"> {{ recipe.attributes.name }}</h1>
     <h5 class="secundary--text"> {{ recipe.attributes.category.data.attributes.name }}</h5>
 
@@ -33,6 +32,12 @@
           </v-col>
         </v-row>
       </v-card-text>
+      <v-card-actions>
+        <v-btn icon v-if="$auth.loggedIn" large @click="toggleLiked()">
+          <v-icon :color="recipeIsLiked? 'error': 'grey'" large>mdi-heart</v-icon>
+        </v-btn>
+        <v-icon v-else class="mr-3">mdi-heart</v-icon><span class="overline"> Likes {{recipe.attributes.likes}}</span>
+      </v-card-actions>
     </v-card>
     <div class="mt-3">
       <v-row>
@@ -70,7 +75,11 @@
 
 <script>
 export default {
-
+  data() {
+    return {
+      likedRecipe: false
+    }
+  },
   computed: {
     formatedTime() {
       let hours = Math.floor(this.recipe.attributes.duration / 60)
@@ -80,6 +89,57 @@ export default {
     },
     userFavorites(){
       return this.$store.getters['user/favorites']
+    },
+    recipeIsLiked() {
+      if (this.userFavorites) {
+        this.likedRecipe = this.userFavorites.some((fav) => fav.id === this.recipe.id)
+      } else {
+        this.likedRecipe = false
+      }
+      return this.likedRecipe
+    }
+  },
+  methods: {
+    toggleLiked() {
+      this.likedRecipe = !this.likedRecipe
+      if (this.likedRecipe) {
+        this.likeRecipe()
+      } else {
+        this.unlikeRecipe()
+      }
+    },
+    likeRecipe() {
+      this.$store.commit('user/addRecipe', this.recipe)
+      
+      const variables = {
+        id: this.recipe.id,
+        idUser: this.$auth.user.id,
+        favorites: this.userFavorites.map(fav => Number(fav.id))
+      }
+
+      this.$apollo.query({
+        query: require('../../../graphql/getLikes.gql'),
+        variables: { id: this.recipe.id }
+      }).then(({ data }) => {
+        let likes = data.recipe.data.attributes.likes + 1
+        this.recipe.attributes.likes = likes
+        variables.likes = likes
+
+        this.$apollo.mutate({
+          context: {
+            headers: {
+              Authorization: this.$auth.strategy.token.get()
+            }
+          },
+          mutation: require('../../../graphql/updateLikes.gql'),
+          variables
+        })
+      
+      })
+
+    },
+    unlikeRecipe() {
+      this.$store.commit('user/removeRecipe', this.recipe.id)
     }
   },
   async asyncData({app, route}) {

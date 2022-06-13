@@ -12,6 +12,14 @@ export const mutations = {
   setFavorites(state, payload) {
     state.favorites = payload;
   },
+  addRecipe(state, payload) {
+    state.favorites.push(payload);
+  },
+  removeRecipe(state, payload) {
+    const myRecipe = state.favorites.find((recipe) => recipe.id === payload);
+    const index = state.favorites.indexOf(myRecipe);
+    state.favorites.splice(index, 1);
+  },
 };
 
 export const actions = {
